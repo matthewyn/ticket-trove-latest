@@ -5,6 +5,8 @@ import home from "/public/home.jpg";
 import Carousel from "@/components/carousel";
 import { getMovies } from "@/actions/movies";
 import MovieRatings from "@/components/movie-ratings";
+import playStore from "/public/play-store.png";
+import appleStore from "/public/apple-store.png";
 
 export default async function Home() {
   const movies = await getMovies();
@@ -15,8 +17,10 @@ export default async function Home() {
         <Image src={`${process.env.TMDB_POSTER_URL_PATH}/w342${movie.poster}`} width={342} height={200} alt={`${movie.title} poster`} className="object-cover rounded-lg" />
       </CardHeader>
       <CardBody>
-        <p>{movie.genres.join("/")}</p>
-        <h2 className="text-lg mb-4">{movie.title}</h2>
+        <p>
+          {movie.genres.join("/")}&bull;{movie.certification}
+        </p>
+        <h2 className="text-lg mb-4 font-semibold">{movie.title}</h2>
         <MovieRatings rating={movie.ratingsAverage} />
       </CardBody>
     </Card>
@@ -35,9 +39,26 @@ export default async function Home() {
           <Button color="primary">Book now</Button>
         </div>
       </Hero>
-      <section>
-        <div className="max-w-5xl mx-auto mb-20">
-          <Carousel>{list}</Carousel>
+      <section className="px-8">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl font-bold mb-8">Now showing</h2>
+          <div>
+            <Carousel>{list}</Carousel>
+          </div>
+        </div>
+      </section>
+      <section className="bg-emerald-100 py-12 px-8">
+        <div className="max-w-6xl mx-auto text-center flex flex-col gap-4">
+          <h2 className="text-3xl font-bold">Get Our App</h2>
+          <p className="max-w-lg mx-auto">Unlock a world of convenience and exclusive perks by installing our Cinema Ticket Booking App. Download now to enjoy a seamless movie-going adventure!</p>
+          <div className="flex gap-3 flex-col xs:flex-row justify-center">
+            <Button color="primary" variant="ghost" startContent={<Image src={playStore} alt="Play sore icon" />}>
+              Play store
+            </Button>
+            <Button color="primary" variant="ghost" startContent={<Image src={appleStore} alt="Play sore icon" />}>
+              App store
+            </Button>
+          </div>
         </div>
       </section>
     </main>

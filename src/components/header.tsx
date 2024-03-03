@@ -1,24 +1,23 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
+"use client";
+
+import { useState } from "react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@nextui-org/react";
 import Link from "next/link";
 import HeaderCta from "./header-cta";
+import Logo from "./logo";
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <Navbar shouldHideOnScroll>
-      <NavbarBrand>
-        <Link href="/" className="flex items-center">
-          <svg fill="none" height="36" viewBox="0 0 32 32" width="36">
-            <path
-              clipRule="evenodd"
-              d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
-              fill="currentColor"
-              fillRule="evenodd"
-            />
-          </svg>
-          <p className="font-bold">TICKET TROVE</p>
-        </Link>
-      </NavbarBrand>
-      <NavbarContent justify="center">
+      <NavbarContent>
+        <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} className="md:hidden" />
+        <NavbarBrand className="hidden xs:block">
+          <Logo />
+        </NavbarBrand>
+      </NavbarContent>
+      <NavbarContent justify="center" className="hidden md:flex">
         <NavbarItem>
           <Link href="#">Integrations</Link>
         </NavbarItem>
@@ -34,6 +33,16 @@ export default function Header() {
       <NavbarContent justify="end">
         <HeaderCta />
       </NavbarContent>
+      <NavbarMenu>
+        <NavbarMenuItem>
+          <Link href="/login" className="w-full">
+            Home
+          </Link>
+          <Link href="/" className="w-full xs:hidden">
+            <Logo />
+          </Link>
+        </NavbarMenuItem>
+      </NavbarMenu>
     </Navbar>
   );
 }

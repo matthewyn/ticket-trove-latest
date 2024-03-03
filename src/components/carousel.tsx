@@ -16,6 +16,21 @@ export default function Carousel({ children }: CarouselProps) {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 430,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return <Slider {...settings}>{children}</Slider>;
