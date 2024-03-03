@@ -9,19 +9,35 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/core": "^0.27.0",
+    "@auth/mongodb-adapter": "^2.4.0",
+    "@auth/prisma-adapter": "^1.4.0",
+    "@nextui-org/react": "^2.2.9",
+    "@prisma/client": "^5.10.2",
+    "@types/react-slick": "^0.23.13",
+    "framer-motion": "^11.0.8",
+    "mongodb": "^6.4.0",
+    "mongoose": "^8.2.0",
+    "next": "latest",
+    "next-auth": "^5.0.0-beta.3",
+    "prisma": "^5.10.2",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "react-icons": "^5.0.1",
+    "react-slick": "^0.30.2",
+    "sharp": "^0.33.2",
+    "slick-carousel": "^1.8.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "typescript": "latest",
-    "@types/react": "latest",
     "@types/node": "latest",
+    "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
     "postcss": "latest",
     "tailwindcss": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest"
+    "typescript": "latest"
   }
 }
