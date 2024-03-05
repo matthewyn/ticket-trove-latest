@@ -17,7 +17,7 @@ Open [Ticket Trove](https://ticket-trove.vercel.app/) with your browser to see t
 
 ## Technologies Used
 
-- **Frontend**: HTML, CSS, JavaScript (Next.js)
+- **Frontend**: HTML, CSS, TypeScript (Next.js)
 - **Database**: MongoDB
 - **Payment Processing**: Stripe API
 - **Authentication**: JSON Web Tokens (JWT)

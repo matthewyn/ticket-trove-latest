@@ -7,12 +7,13 @@ import { getMovies } from "@/actions/movies";
 import MovieRatings from "@/components/movie-ratings";
 import playStore from "/public/play-store.png";
 import appleStore from "/public/apple-store.png";
+import { paths } from "@/paths";
 
 export default async function Home() {
   const movies = await getMovies();
 
   const list = movies.map((movie) => (
-    <Card key={movie.id} shadow="sm">
+    <Card key={movie.id} shadow="sm" as={Link} href={paths.movieDetails(movie.slug)}>
       <CardHeader>
         <Image src={`${process.env.TMDB_POSTER_URL_PATH}/w342${movie.poster}`} width={342} height={200} alt={`${movie.title} poster`} className="object-cover rounded-lg" />
       </CardHeader>

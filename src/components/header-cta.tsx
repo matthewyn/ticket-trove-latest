@@ -44,7 +44,7 @@ export default function HeaderCta() {
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/login">
+          <Link href="/signup">
             <Button type="submit" color="primary">
               Sign up
             </Button>

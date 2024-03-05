@@ -17,4 +17,10 @@ export const paths = {
   profile() {
     return `/settings/profile`;
   },
+  movieDetails(slug: string) {
+    return `/movies/${slug}`;
+  },
+  movieScreenings(slug: string) {
+    return `/movies/${slug}/screenings`;
+  },
 };
