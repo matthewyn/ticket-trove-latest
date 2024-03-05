@@ -13,7 +13,7 @@ export default function Header() {
     <Navbar shouldHideOnScroll>
       <NavbarContent>
         <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} className="md:hidden" />
-        <NavbarBrand className="hidden xs:block">
+        <NavbarBrand className="hidden sm:block">
           <Logo />
         </NavbarBrand>
       </NavbarContent>
@@ -35,10 +35,10 @@ export default function Header() {
       </NavbarContent>
       <NavbarMenu>
         <NavbarMenuItem>
-          <Link href="/login" className="w-full">
+          <Link href="/" className="w-full">
             Home
           </Link>
-          <Link href="/" className="w-full xs:hidden">
+          <Link href="/" className="w-full sm:hidden">
             <Logo />
           </Link>
         </NavbarMenuItem>

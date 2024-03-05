@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { updateProfile } from "@/actions/settings/updateProfile";
 import SettingsLayout from "@/components/settings-layout";
 import SubmitButton from "@/components/submit-button";
-import { Input, Textarea } from "@nextui-org/react";
+import { Textarea } from "@nextui-org/react";
 
 export default function Profile() {
   const [formState, action] = useFormState(updateProfile, { errors: {} });

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader, Link } from "@nextui-org/react";
 import Hero from "@/components/hero";
 import home from "/public/home.jpg";
 import Carousel from "@/components/carousel";
@@ -36,10 +36,12 @@ export default async function Home() {
           comedies, and action-packed adventures.
         </p>
         <div>
-          <Button color="primary">Book now</Button>
+          <Button color="primary" as={Link} href="#now-showing">
+            Book now
+          </Button>
         </div>
       </Hero>
-      <section className="px-8">
+      <section className="px-8" id="now-showing">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold mb-8">Now showing</h2>
           <div>

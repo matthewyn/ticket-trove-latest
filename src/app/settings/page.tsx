@@ -5,7 +5,8 @@ import { useSession } from "next-auth/react";
 import { updateUser } from "@/actions/settings";
 import SettingsLayout from "@/components/settings-layout";
 import SubmitButton from "@/components/submit-button";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
+import { FormEvent } from "react";
 
 export default function Settings() {
   const [formState, action] = useFormState(updateUser, { errors: {} });

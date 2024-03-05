@@ -2,41 +2,38 @@
 
 import Image from "next/image";
 import { Button, Input, Link } from "@nextui-org/react";
-import { FormEventHandler, useState } from "react";
+import { useState } from "react";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import login from "/public/login.jpg";
 import google from "/public/google.png";
 import Hero from "@/components/hero";
+import { useFormState } from "react-dom";
+import { signup } from "@/actions/users";
 import SubmitButton from "@/components/submit-button";
-import { signInGoogle, signInCredential } from "@/actions";
+import { signInGoogle } from "@/actions";
 
-export default function Login() {
+export default function Signup() {
   const [isVisible, setIsVisible] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formState, action] = useFormState(signup, { errors: {} });
 
   const toggleVisibility = () => setIsVisible(!isVisible);
-
-  const handleForm: FormEventHandler = async (e) => {
-    e.preventDefault();
-    await signInCredential(email, password);
-  };
 
   return (
     <main>
       <Hero image={login} altImage="Person enjoying a film">
         <form action={signInGoogle} className="mb-4 text-center flex flex-col gap-4 items-center">
-          <h1 className="font-bold text-2xl">Sign in to Ticket Trove</h1>
+          <h1 className="font-bold text-2xl">Sign up to Ticket Trove</h1>
           <Button type="submit" variant="bordered" startContent={<Image src={google} alt="google logo" />}>
-            Sign in with Google
+            Sign up with Google
           </Button>
         </form>
-        <form className="flex flex-col gap-4" onSubmit={handleForm}>
-          <Input type="email" name="email" label="Email" labelPlacement="outside" placeholder="Enter your email" variant="bordered" isRequired value={email} onChange={(e) => setEmail(e.target.value)} />
+        <form action={action} className="flex flex-col gap-4">
+          <Input label="Name" name="name" labelPlacement="outside" placeholder="Enter your name" variant="bordered" isRequired isInvalid={!!formState.errors.name} errorMessage={formState.errors.name} />
+          <Input type="email" name="email" label="Email" labelPlacement="outside" placeholder="Enter your email" variant="bordered" isRequired isInvalid={!!formState.errors.email} errorMessage={formState.errors.email} />
           <Input
             type={isVisible ? "text" : "password"}
-            label="Password"
             name="password"
+            label="Password"
             labelPlacement="outside"
             placeholder="Enter your password"
             variant="bordered"
@@ -46,16 +43,16 @@ export default function Login() {
                 {isVisible ? <HiEyeSlash className="text-2xl text-default-400 pointer-events-none" /> : <HiEye className="text-2xl text-default-400 pointer-events-none" />}
               </button>
             }
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            isInvalid={!!formState.errors.password}
+            errorMessage={formState.errors.password}
           />
-          <SubmitButton>Log in</SubmitButton>
+          <SubmitButton>Sign up</SubmitButton>
         </form>
         <span>
-          Don&apos;t have an account?
-          <Link href="/signup" underline="always">
+          Already have an account?
+          <Link href="/login" underline="always">
             {" "}
-            Sign up
+            Log in
           </Link>
         </span>
       </Hero>

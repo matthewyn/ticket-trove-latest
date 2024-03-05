@@ -1,12 +1,14 @@
 "use client";
 
 import { Avatar, Button, NavbarItem, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { signOut } from "@/actions";
 
 export default function HeaderCta() {
   const session = useSession();
+
+  if (session.status === "loading") return null;
 
   let content;
   if (session.data?.user) {
@@ -14,7 +16,7 @@ export default function HeaderCta() {
       <NavbarItem>
         <Popover placement="left">
           <PopoverTrigger>
-            <Avatar src={session.data.user.image || ""} />
+            <Avatar src={session.data?.user.image || ""} />
           </PopoverTrigger>
           <PopoverContent>
             <div className="p-4">
@@ -37,11 +39,9 @@ export default function HeaderCta() {
     content = (
       <>
         <NavbarItem>
-          <Link href="/login">
-            <Button type="submit" color="primary" variant="light">
-              Log in
-            </Button>
-          </Link>
+          <Button type="submit" color="primary" variant="light" onClick={() => signIn()}>
+            Log in
+          </Button>
         </NavbarItem>
         <NavbarItem>
           <Link href="/login">
