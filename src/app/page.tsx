@@ -15,7 +15,7 @@ export default async function Home() {
   const list = movies.map((movie) => (
     <Card key={movie.id} shadow="sm" as={Link} href={paths.movieDetails(movie.slug)}>
       <CardHeader>
-        <Image src={`${process.env.TMDB_POSTER_URL_PATH}/w342${movie.poster}`} width={342} height={200} alt={`${movie.title} poster`} className="object-cover rounded-lg" />
+        <Image src={`${process.env.TMDB_POSTER_URL_PATH}/w342${movie.poster}`} width={342} height={200} alt={`${movie.title} poster`} className="object-cover rounded-lg" quality={80} />
       </CardHeader>
       <CardBody>
         <p>

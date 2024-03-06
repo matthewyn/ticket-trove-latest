@@ -37,6 +37,7 @@ export default function Footer() {
               <BsTwitter size={20} />
             </Link>
           </div>
+          <p className="md:col-span-3 text-center">&copy; Ticket Trove Inc. 2023</p>
         </div>
       </footer>
     );

@@ -19,11 +19,11 @@ export default function Header() {
       </NavbarContent>
       <NavbarContent justify="center" className="hidden md:flex">
         <NavbarItem>
-          <Link href="#">Integrations</Link>
+          <Link href="/">Home</Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
+          <Link href="/events" aria-current="page">
+            Events
           </Link>
         </NavbarItem>
         <NavbarItem>
