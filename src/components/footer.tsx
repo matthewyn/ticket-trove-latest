@@ -14,7 +14,7 @@ export default function Footer() {
 
   if (!excludedPage.includes(path)) {
     content = (
-      <footer className="py-10 pl-4 pr-8">
+      <footer className="py-10 pl-4 pr-8 mt-8">
         <div className="max-w-6xl mx-auto grid gap-y-6 md:grid-cols-[auto_1fr_auto] items-center justify-items-center">
           <div>
             <Logo />

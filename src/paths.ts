@@ -2,6 +2,9 @@ export const paths = {
   home() {
     return `/`;
   },
+  events() {
+    return `/events`;
+  },
   login() {
     return `/login`;
   },
@@ -22,5 +25,8 @@ export const paths = {
   },
   movieScreenings(slug: string) {
     return `/movies/${slug}/screenings`;
+  },
+  movieSeats(slug: string, screening: string) {
+    return `/movies/${slug}/screenings/${screening}`;
   },
 };

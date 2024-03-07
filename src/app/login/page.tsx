@@ -8,10 +8,15 @@ import login from "/public/login.jpg";
 import google from "/public/google.png";
 import Hero from "@/components/hero";
 import SubmitButton from "@/components/submit-button";
-import { signInGoogle, signInCredential } from "@/actions";
+import { signInGoogle } from "@/actions";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { paths } from "@/paths";
 
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,7 +24,11 @@ export default function Login() {
 
   const handleForm: FormEventHandler = async (e) => {
     e.preventDefault();
-    await signInCredential(email, password);
+    const res = await signIn("credentials", { email: email, password: password, redirect: false });
+    if (res?.error === "CredentialsSignin") {
+      return toast.error("Invalid credential");
+    }
+    router.push(paths.home());
   };
 
   return (

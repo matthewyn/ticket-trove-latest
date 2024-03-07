@@ -5,8 +5,11 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuI
 import Link from "next/link";
 import HeaderCta from "./header-cta";
 import Logo from "./logo";
+import { usePathname } from "next/navigation";
+import { paths } from "@/paths";
 
 export default function Header() {
+  const path = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -18,11 +21,13 @@ export default function Header() {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent justify="center" className="hidden md:flex">
-        <NavbarItem>
-          <Link href="/">Home</Link>
+        <NavbarItem isActive={path === paths.home()}>
+          <Link href="/" aria-current={path === paths.home() ? "page" : undefined}>
+            Home
+          </Link>
         </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="/events" aria-current="page">
+        <NavbarItem isActive={path === paths.events()}>
+          <Link href="/events" aria-current={path === paths.events() ? "page" : undefined}>
             Events
           </Link>
         </NavbarItem>
@@ -38,6 +43,13 @@ export default function Header() {
           <Link href="/" className="w-full">
             Home
           </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link href="/events" className="w-full">
+            Events
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
           <Link href="/" className="w-full sm:hidden">
             <Logo />
           </Link>

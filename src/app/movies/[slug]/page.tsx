@@ -1,11 +1,8 @@
 import { getMovie } from "@/actions/movies";
-import MovieRatings from "@/components/movie-ratings";
+import MovieHeader from "@/components/movie-header";
 import Player from "@/components/player";
 import { paths } from "@/paths";
-import { formatRuntime } from "@/utils";
-import { Button } from "@nextui-org/react";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface MovieDetailsProps {
@@ -31,30 +28,7 @@ export default async function MovieDetails({ params }: MovieDetailsProps) {
 
   return (
     <main className="flex flex-col gap-20">
-      <section className="lg:mt-12">
-        <div className="relative h-80 lg:hidden">
-          <Image src={`${process.env.TMDB_POSTER_URL_PATH}/w300${movie.poster}`} alt={`${movie.title} poster`} quality={80} fill objectFit="cover" />
-        </div>
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-[1fr_3fr] px-8 gap-8">
-          <div className="hidden lg:block">
-            <Image src={`${process.env.TMDB_POSTER_URL_PATH}/w300${movie.poster}`} width={290} height={216} alt={`${movie.title} poster`} quality={80} />
-          </div>
-          <div className="flex flex-col gap-2 mt-6">
-            <p>
-              {movie.genres.join(", ")} &bull; {formatRuntime(movie.runtime)}
-            </p>
-            <div>
-              <h1 className="font-bold text-2xl">{movie.title}</h1>
-              <MovieRatings rating={movie.ratingsAverage} />
-            </div>
-            <div>
-              <Button color="primary" as={Link} href={paths.movieScreenings(movie.slug)}>
-                Book now
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <MovieHeader movie={movie} isRedirect={true} href={paths.movieScreenings(params.slug)} />
       <section className="px-8">
         <div className="max-w-6xl mx-auto grid sm:grid-cols-2 gap-x-12 gap-y-6">
           <div className="flex flex-col gap-2">

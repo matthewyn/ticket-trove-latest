@@ -14,13 +14,13 @@ export default function Events() {
           <h1 className="text-4xl font-semibold">Discover Unforgettable Experiences</h1>
           <p className="max-w-xl mx-auto">Explore a diverse array of events designed to delight and captivate audiences of all tastes and interests.</p>
           <div>
-            <Button color="primary" as={Link} href="#">
+            <Button color="primary" as={Link} href="#events">
               Get started today
             </Button>
           </div>
         </div>
       </section>
-      <section className="px-8">
+      <section className="px-8" id="events">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
           <div className="flex flex-col gap-4">
             <h2 className="font-bold text-xl">Exclusive Premieres</h2>
@@ -29,10 +29,10 @@ export default function Events() {
               else.
             </p>
           </div>
-          <div className="bg-emerald-200">
+          <div>
             <Image src={premiere} alt="Experience blockbuster hits" className="w-full h-64 xs:h-80 lg:h-96 object-cover" quality={80} />
           </div>
-          <div className="bg-emerald-200">
+          <div>
             <Image src={festival} alt="Immerse yourself in the magic of cinema with our curated film festivals" className="w-full h-64 xs:h-80 lg:h-96 object-cover" quality={80} />
           </div>
           <div className="flex flex-col gap-4 row-start-3 md:row-start-2 md:col-start-2">
@@ -48,7 +48,7 @@ export default function Events() {
               experience every time.
             </p>
           </div>
-          <div className="bg-emerald-200">
+          <div>
             <Image src={movieNights} alt="Step into a world of nostalgia and fantasy with our themed movie nights" className="w-full h-64 xs:h-80 lg:h-96 object-cover" quality={80} />
           </div>
         </div>

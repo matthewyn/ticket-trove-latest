@@ -21,7 +21,7 @@ export default function Hero({ image, altImage, children }: HeroProps) {
         <div className="lg:max-w-xl w-full lg:mx-auto flex flex-col gap-4">{children}</div>
       </div>
       <div className={`relative h-80 lg:h-auto row-start-1 lg:col-start-2 ${excludedPage.includes(path) ? "hidden lg:block" : ""}`}>
-        <Image src={image} alt={altImage} quality={80} fill objectFit="cover" objectPosition="center top" />
+        <Image src={image} alt={altImage} quality={80} fill objectFit="cover" objectPosition="center top" priority={true} />
       </div>
     </section>
   );

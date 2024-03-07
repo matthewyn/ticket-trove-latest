@@ -12,9 +12,9 @@ export async function POST(req: Request) {
     return NextResponse.json(user);
   } catch (err) {
     if (err instanceof Error) {
-      return NextResponse.json({ message: err.message });
+      return NextResponse.json({ message: err.message }, { status: 400 });
     } else {
-      return NextResponse.json({ message: "Something bad happen" });
+      return NextResponse.json({ message: "Something bad happen" }, { status: 500 });
     }
   }
 }
