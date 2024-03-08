@@ -3,3 +3,7 @@ export function formatRuntime(duration: number) {
   const minutes = duration % 60;
   return `${hours} h ${minutes} m`;
 }
+
+export function formatTimeFromUrl(time: string) {
+  return time.replace(/%3A/g, ":");
+}
