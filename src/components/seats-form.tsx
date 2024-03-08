@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckboxGroup } from "@nextui-org/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import CustomCheckbox from "./custom-checkbox";
 
 import type { Prisma } from "@prisma/client";
@@ -19,7 +19,7 @@ interface SeatsFormProps {
 }
 
 export default function SeatsForm({ availableSeats }: SeatsFormProps) {
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
 
   const seats = Object.values(availableSeats)
     .flat()
@@ -27,7 +27,7 @@ export default function SeatsForm({ availableSeats }: SeatsFormProps) {
     .reverse();
 
   return (
-    <CheckboxGroup value={selectedSeats} onChange={setSelectedSeats} className="overflow-x-auto">
+    <CheckboxGroup value={selectedSeats} onValueChange={(string) => setSelectedSeats([...string])} className="overflow-x-auto">
       <div className="grid grid-cols-[repeat(2,min-content)] gap-24 justify-center">
         <div className="grid grid-cols-[repeat(8,auto)] items-center gap-2">
           <div>&nbsp;</div>

@@ -6,6 +6,7 @@ import SeatsForm from "@/components/seats-form";
 import { notFound } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import BackButton from "@/components/back-button";
+import ProtectedRoute from "@/components/protected-route";
 
 interface MovieSeatsProps {
   params: {
@@ -20,7 +21,7 @@ export default async function MovieSeats({ params }: MovieSeatsProps) {
   if (!screening) return notFound();
 
   return (
-    <main className="flex flex-col gap-20">
+    <ProtectedRoute>
       <section className="px-8 mt-16 sm:mt-24 text-center">
         <div className="max-w-6xl mx-auto flex flex-col gap-16">
           <div>
@@ -34,6 +35,6 @@ export default async function MovieSeats({ params }: MovieSeatsProps) {
           </div>
         </div>
       </section>
-    </main>
+    </ProtectedRoute>
   );
 }

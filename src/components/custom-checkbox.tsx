@@ -5,7 +5,7 @@ import React from "react";
 
 const checkbox = tv({
   slots: {
-    base: "border-default hover:bg-default-200 w-12 h-12 max-w-full",
+    base: "border-default bg-default-100 hover:bg-default-200 w-12 h-12 rounded-small border-medium max-w-full",
     content: "text-default-500",
   },
   variants: {
@@ -40,10 +40,6 @@ export default function CustomCheckbox(props: any) {
           base: styles.base(),
           content: styles.content(),
         }}
-        color="primary"
-        variant="faded"
-        radius="sm"
-        {...getLabelProps()}
       >
         {children}
       </Chip>
