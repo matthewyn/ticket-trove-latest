@@ -14,7 +14,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const session = useSession();
   const router = useRouter();
 
-  if (!session.data?.user) {
+  if (!session.data?.user && session.status !== "loading") {
     toast.error("Log in to continue");
     router.push(paths.login());
     return null;

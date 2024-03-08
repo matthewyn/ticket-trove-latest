@@ -2,7 +2,7 @@ import { getScreenings } from "@/actions/screenings";
 import MovieHeader from "@/components/movie-header";
 import ProtectedRoute from "@/components/protected-route";
 import ScreeningsForm from "@/components/screenings-form";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 interface MovieScreeningsProps {
   params: {
