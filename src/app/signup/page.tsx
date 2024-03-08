@@ -11,12 +11,17 @@ import { useFormState } from "react-dom";
 import { signup } from "@/actions/users";
 import SubmitButton from "@/components/submit-button";
 import { signInGoogle } from "@/actions";
+import toast from "react-hot-toast";
 
 export default function Signup() {
   const [isVisible, setIsVisible] = useState(false);
   const [formState, action] = useFormState(signup, { errors: {} });
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  if (formState.errors._form) {
+    toast.error(formState.errors._form.join(", "));
+  }
 
   return (
     <main>

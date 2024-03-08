@@ -37,7 +37,7 @@ export async function updateUser(formState: UpdateGeneralFormState, formData: Fo
     };
   }
   try {
-    await db.user.update({ where: { email: session.user.email }, data: { email: result.data.email, name: result.data.name } });
+    await db.user.update({ where: { id: session.user.id }, data: { email: result.data.email, name: result.data.name } });
   } catch (err) {
     if (err instanceof Error) {
       return {

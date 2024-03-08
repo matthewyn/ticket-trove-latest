@@ -2,6 +2,7 @@
 
 import { db } from "@/db";
 import { paths } from "@/paths";
+import { hashPassword } from "@/utils";
 import { redirect } from "next/navigation";
 import { string, z } from "zod";
 
@@ -32,11 +33,14 @@ export async function signup(formState: SignUpFormState, formData: FormData): Pr
     };
   }
   try {
+    const user = await db.user.findFirst({ where: { email: result.data.email } });
+    if (user) throw new Error("User already registered");
+    const hashedPassword = await hashPassword(result.data.password);
     await db.user.create({
       data: {
         name: result.data.name,
         email: result.data.email,
-        password: result.data.password,
+        password: hashedPassword,
       },
     });
   } catch (err) {

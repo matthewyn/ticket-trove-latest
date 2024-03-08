@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import bcrypt from "bcryptjs";
 
 export function formatRuntime(duration: number) {
   const hours = Math.floor(duration / 60);
@@ -8,4 +8,12 @@ export function formatRuntime(duration: number) {
 
 export function formatTimeFromUrl(time: string) {
   return time.replace(/%3A/g, ":");
+}
+
+export async function hashPassword(password: string) {
+  return await bcrypt.hash(password, 12);
+}
+
+export async function comparePassword(password: string, currentPassword: string) {
+  return await bcrypt.compare(password, currentPassword);
 }

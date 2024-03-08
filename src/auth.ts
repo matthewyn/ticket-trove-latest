@@ -54,8 +54,16 @@ export const {
   trustHost: true,
   callbacks: {
     // usually not needed
-    session({ session, token, user }) {
+    async session({ session, token, user }) {
+      if (token.sub && session.user) {
+        const user = await db.user.findFirst({ where: { id: token.sub } });
+        if (!user) return session;
+        session.user = user;
+      }
       return session;
+    },
+    async jwt({ token }) {
+      return token;
     },
   },
   pages: {
