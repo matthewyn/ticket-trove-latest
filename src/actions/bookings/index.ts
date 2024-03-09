@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { headers } from "next/headers";
 import Stripe from "stripe";
-const stripe = new Stripe("sk_test_51Os4SZF3E14Y3BbH5AcYGcqMPL30T7GfOAASQ3Q0JgCdgybfGNTYBe37ZCH23blcpC1omnjSf0dz9liWZTJaRGfP006F7P9FkX");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function getCheckoutSession(startTime: string) {
   const schedule = new Date(startTime);
