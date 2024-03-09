@@ -60,7 +60,7 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
     if (selectedSeats.length === 0) return toast.error("Please select seat");
     if (selectedSeats.length > 8) return toast.error("Maximum seat allowed is 8");
     try {
-      const session = await getCheckoutSession(formattedTime);
+      const session = await getCheckoutSession(formattedTime, selectedSeats);
       if (!session) throw new Error("Failed creating payment session");
       const stripe = await getStripe();
       const { error } = await stripe!.redirectToCheckout({ sessionId: session.id });
@@ -106,7 +106,7 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
                 {seats
                   .filter((seat) => Number(seat.slice(1)) > 7)
                   .map((seat) => (
-                    <CustomCheckbox value={seat} key={seat}>
+                    <CustomCheckbox value={seat} key={seat} availableSeats={screening.availableSeats}>
                       &nbsp;
                     </CustomCheckbox>
                   ))}
@@ -131,7 +131,7 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
                 {seats
                   .filter((seat) => Number(seat.slice(1)) <= 7)
                   .map((seat) => (
-                    <CustomCheckbox value={seat} key={seat}>
+                    <CustomCheckbox value={seat} key={seat} availableSeats={screening.availableSeats}>
                       &nbsp;
                     </CustomCheckbox>
                   ))}

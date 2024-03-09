@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-export async function getCheckoutSession(startTime: string) {
+export async function getCheckoutSession(startTime: string, seatsBooked: string[]) {
   const schedule = new Date(startTime);
   const screening = await db.screening.findFirst({ where: { startTime: schedule }, include: { movie: true, studio: true } });
   const session = await auth();
@@ -36,6 +36,9 @@ export async function getCheckoutSession(startTime: string) {
         quantity: 1,
       },
     ],
+    metadata: {
+      seatsBooked: seatsBooked.join(", "),
+    },
   });
 
   return response;

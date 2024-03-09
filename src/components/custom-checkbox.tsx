@@ -28,10 +28,12 @@ export default function CustomCheckbox(props: any) {
     ...props,
   });
 
+  const { availableSeats, value } = props;
+
   const styles = checkbox({ isSelected, isFocusVisible });
 
   return (
-    <label {...getBaseProps()}>
+    <label {...getBaseProps()} className={`${availableSeats.sold.includes(value) ? "cursor-not-allowed" : "cursor-pointer"}`}>
       <VisuallyHidden>
         <input {...getInputProps()} />
       </VisuallyHidden>
@@ -40,6 +42,8 @@ export default function CustomCheckbox(props: any) {
           base: styles.base(),
           content: styles.content(),
         }}
+        className={`${availableSeats.sold.includes(value) ? "border-danger bg-danger" : ""}`}
+        isDisabled={availableSeats.sold.includes(value) ? true : false}
       >
         {children}
       </Chip>

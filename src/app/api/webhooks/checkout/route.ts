@@ -1,3 +1,4 @@
+import { db } from "@/db";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -19,7 +20,22 @@ export async function POST(req: Request) {
         break;
       case "checkout.session.completed":
         const checkoutSessionCompleted = event.data.object;
+        const seatsBooked = checkoutSessionCompleted?.metadata?.seatsBooked.split(", ") as string[];
+        const user = await db.user.findFirst({ where: { email: checkoutSessionCompleted.customer_email as string } });
+        const screening = await db.screening.findFirst({ where: { id: checkoutSessionCompleted.client_reference_id as string } });
+        if (!screening) throw new Error("No screening found");
+        screening.availableSeats.available = screening.availableSeats.available.filter((seat) => !seatsBooked.includes(seat));
+        screening.availableSeats.sold = screening.availableSeats.sold.concat(seatsBooked);
         // Then define and call a function to handle the event checkout.session.completed
+        await db.screening.update({ where: { id: checkoutSessionCompleted.client_reference_id as string }, data: { availableSeats: screening.availableSeats } });
+        await db.booking.create({
+          data: {
+            screeningId: checkoutSessionCompleted.client_reference_id as string,
+            totalAmount: checkoutSessionCompleted.amount_total as number,
+            userId: user?.id as string,
+            seatsBooked: checkoutSessionCompleted.metadata?.seatsBooked.split(", ") as string[],
+          },
+        });
         break;
       case "checkout.session.expired":
         const checkoutSessionExpired = event.data.object;
