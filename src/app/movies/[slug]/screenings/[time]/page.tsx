@@ -144,7 +144,11 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
               </div>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 border-primary bg-primary border-medium rounded-small">&nbsp;</div>
-                <span>Available</span>
+                <span>Selected</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 border-danger bg-danger border-medium rounded-small">&nbsp;</div>
+                <span>Sold</span>
               </div>
             </div>
           </CheckboxGroup>
