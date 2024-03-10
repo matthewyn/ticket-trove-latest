@@ -17,18 +17,15 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
 
   let content;
   let description;
-  switch (path) {
-    case paths.settings():
-      content = "General";
-      description = "Update your name and email";
-      break;
-    case paths.profile():
-      content = "Edit Profile";
-      description = "Set up your Ticket Trove presence";
-      break;
-    case paths.bookings():
-      content = "Bookings";
-      description = "View your booking here";
+  if (path === paths.settings()) {
+    content = "General";
+    description = "Update your name and email";
+  } else if (path === paths.profile()) {
+    content = "Edit Profile";
+    description = "Set up your Ticket Trove presence";
+  } else if (path.startsWith(paths.bookings())) {
+    content = "Bookings";
+    description = "View your booking here";
   }
 
   return (
@@ -60,7 +57,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
                 </Link>
               </li>
               <li>
-                <Link href={paths.bookings()} className={`${path === paths.bookings() ? "font-bold" : ""}`}>
+                <Link href={paths.bookings()} className={`${path.startsWith(paths.bookings()) ? "font-bold" : ""}`}>
                   Bookings
                 </Link>
               </li>
