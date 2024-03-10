@@ -6,16 +6,27 @@ import { updateProfile } from "@/actions/settings/updateProfile";
 import SettingsLayout from "@/components/settings-layout";
 import SubmitButton from "@/components/submit-button";
 import { Textarea } from "@nextui-org/react";
+import toast from "react-hot-toast";
 
 export default function Profile() {
-  const [formState, action] = useFormState(updateProfile, { errors: {} });
+  const [formState, action] = useFormState(updateProfile, { errors: {}, completed: false });
   const session = useSession();
 
   if (session.status === "loading") return null;
 
+  const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    action(formData);
+  };
+
+  if (formState.completed) {
+    toast.success("Success updating profile");
+  }
+
   return (
     <SettingsLayout>
-      <form action={action} className="flex flex-col gap-8">
+      <form className="flex flex-col gap-8" onSubmit={handleForm}>
         <Textarea
           label="Bio"
           name="bio"

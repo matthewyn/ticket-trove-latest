@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Button, Input, Link } from "@nextui-org/react";
-import { useState } from "react";
+import React, { FormEventHandler, useState } from "react";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import login from "/public/login.jpg";
 import google from "/public/google.png";
@@ -12,15 +12,23 @@ import { signup } from "@/actions/users";
 import SubmitButton from "@/components/submit-button";
 import { signInGoogle } from "@/actions";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { paths } from "@/paths";
 
 export default function Signup() {
   const [isVisible, setIsVisible] = useState(false);
-  const [formState, action] = useFormState(signup, { errors: {} });
+  const [formState, action] = useFormState(signup, { errors: {}, completed: false });
+  const router = useRouter();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   if (formState.errors._form) {
     toast.error(formState.errors._form.join(", "));
+  }
+
+  if (formState.completed) {
+    toast.success("Sign up successfull");
+    router.push(paths.login());
   }
 
   return (
@@ -32,7 +40,7 @@ export default function Signup() {
             Sign up with Google
           </Button>
         </form>
-        <form action={action} className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" action={action}>
           <Input label="Name" name="name" labelPlacement="outside" placeholder="Enter your name" variant="bordered" isRequired isInvalid={!!formState.errors.name} errorMessage={formState.errors.name} />
           <Input type="email" name="email" label="Email" labelPlacement="outside" placeholder="Enter your email" variant="bordered" isRequired isInvalid={!!formState.errors.email} errorMessage={formState.errors.email} />
           <Input

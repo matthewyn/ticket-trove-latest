@@ -11,6 +11,7 @@ interface UpdateProfileFormState {
     bio?: string[];
     _form?: string[];
   };
+  completed: boolean;
 }
 
 const Setting = z.object({
@@ -24,6 +25,7 @@ export async function updateProfile(formState: UpdateProfileFormState, formData:
       errors: {
         _form: ["Log in to continue"],
       },
+      completed: false,
     };
   const result = Setting.safeParse({
     bio: formData.get("bio"),
@@ -31,6 +33,7 @@ export async function updateProfile(formState: UpdateProfileFormState, formData:
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
+      completed: false,
     };
   }
   try {
@@ -41,17 +44,20 @@ export async function updateProfile(formState: UpdateProfileFormState, formData:
         errors: {
           _form: [err.message],
         },
+        completed: false,
       };
     } else {
       return {
         errors: {
           _form: ["Something wrong happen"],
         },
+        completed: false,
       };
     }
   }
   revalidatePath(paths.profile());
   return {
     errors: {},
+    completed: true,
   };
 }

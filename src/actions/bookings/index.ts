@@ -43,3 +43,12 @@ export async function getCheckoutSession(startTime: string, seatsBooked: string[
 
   return response;
 }
+
+export async function getBookings() {
+  const session = await auth();
+  return await db.booking.findMany({ where: { userId: session?.user.id }, include: { screening: { select: { movie: true, studio: true, startTime: true, endTime: true } } } });
+}
+
+export async function getBooking(id: string) {
+  return await db.booking.findFirst({ where: { id }, include: { screening: { select: { movie: true, studio: true, startTime: true, endTime: true } } } });
+}

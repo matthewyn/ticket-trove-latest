@@ -106,7 +106,7 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
                 {seats
                   .filter((seat) => Number(seat.slice(1)) > 7)
                   .map((seat) => (
-                    <CustomCheckbox value={seat} key={seat} availableSeats={screening.availableSeats}>
+                    <CustomCheckbox value={seat} key={seat} availableseats={screening.availableSeats}>
                       &nbsp;
                     </CustomCheckbox>
                   ))}
@@ -131,7 +131,7 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
                 {seats
                   .filter((seat) => Number(seat.slice(1)) <= 7)
                   .map((seat) => (
-                    <CustomCheckbox value={seat} key={seat} availableSeats={screening.availableSeats}>
+                    <CustomCheckbox value={seat} key={seat} availableseats={screening.availableSeats}>
                       &nbsp;
                     </CustomCheckbox>
                   ))}

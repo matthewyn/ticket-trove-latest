@@ -17,3 +17,7 @@ export async function hashPassword(password: string) {
 export async function comparePassword(password: string, currentPassword: string) {
   return await bcrypt.compare(password, currentPassword);
 }
+
+export function formatTime(time: Date) {
+  return new Date(time).toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+}

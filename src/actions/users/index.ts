@@ -13,6 +13,7 @@ interface SignUpFormState {
     password?: string[];
     _form?: string[];
   };
+  completed: boolean;
 }
 
 const Signup = z.object({
@@ -30,6 +31,7 @@ export async function signup(formState: SignUpFormState, formData: FormData): Pr
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
+      completed: false,
     };
   }
   try {
@@ -49,14 +51,19 @@ export async function signup(formState: SignUpFormState, formData: FormData): Pr
         errors: {
           _form: [err.message],
         },
+        completed: false,
       };
     } else {
       return {
         errors: {
           _form: ["Something bad happen"],
         },
+        completed: false,
       };
     }
   }
-  redirect(paths.login());
+  return {
+    errors: {},
+    completed: true,
+  };
 }

@@ -7,6 +7,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { paths } from "@/paths";
+import { formatTime } from "@/utils";
 
 type ScreeningsWithStudio = Prisma.ScreeningGetPayload<{
   include: {
@@ -32,21 +33,21 @@ export default function ScreeningsForm({ screenings, slug }: ScreeningsFormProps
     .filter((screening) => screening.studio.type === "Regular 2D")
     .map((screening) => (
       <Button as={Radio} value={screening.startTime.toISOString()} key={screening.id} variant="ghost">
-        {new Date(screening.startTime).toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })}
+        {formatTime(screening.startTime)}
       </Button>
     ));
   const regular3D = screenings
     .filter((screening) => screening.studio.type === "Regular 3D")
     .map((screening) => (
       <Button as={Radio} value={screening.startTime.toISOString()} key={screening.id} variant="ghost">
-        {new Date(screening.startTime).toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })}
+        {formatTime(screening.startTime)}
       </Button>
     ));
   const imax3D = screenings
     .filter((screening) => screening.studio.type === "IMAX 3D")
     .map((screening) => (
       <Button as={Radio} value={screening.startTime.toISOString()} key={screening.id} variant="ghost">
-        {new Date(screening.startTime).toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })}
+        {formatTime(screening.startTime)}
       </Button>
     ));
 

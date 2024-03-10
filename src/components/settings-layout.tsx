@@ -28,6 +28,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
       break;
     case paths.bookings():
       content = "Bookings";
+      description = "View your booking here";
   }
 
   return (

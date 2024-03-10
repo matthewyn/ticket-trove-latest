@@ -17,6 +17,9 @@ export const paths = {
   bookings() {
     return `/bookings`;
   },
+  bookingDetails(id: string) {
+    return `/bookings/${id}`;
+  },
   profile() {
     return `/settings/profile`;
   },

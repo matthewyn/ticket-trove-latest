@@ -12,6 +12,7 @@ interface UpdateGeneralFormState {
     email?: string[];
     _form?: string[];
   };
+  completed: boolean;
 }
 
 const Setting = z.object({
@@ -26,6 +27,7 @@ export async function updateUser(formState: UpdateGeneralFormState, formData: Fo
       errors: {
         _form: ["Log in to continue"],
       },
+      completed: false,
     };
   const result = Setting.safeParse({
     name: formData.get("name"),
@@ -34,6 +36,7 @@ export async function updateUser(formState: UpdateGeneralFormState, formData: Fo
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
+      completed: false,
     };
   }
   try {
@@ -44,17 +47,20 @@ export async function updateUser(formState: UpdateGeneralFormState, formData: Fo
         errors: {
           _form: [err.message],
         },
+        completed: false,
       };
     } else {
       return {
         errors: {
           _form: ["Something wrong happen"],
         },
+        completed: false,
       };
     }
   }
   revalidatePath(paths.settings());
   return {
     errors: {},
+    completed: true,
   };
 }
