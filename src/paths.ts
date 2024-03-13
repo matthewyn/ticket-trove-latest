@@ -5,6 +5,9 @@ export const paths = {
   events() {
     return `/events`;
   },
+  features() {
+    return `/features`;
+  },
   login() {
     return `/login`;
   },
@@ -22,6 +25,9 @@ export const paths = {
   },
   profile() {
     return `/settings/profile`;
+  },
+  settingsPassword() {
+    return `/settings/password`;
   },
   movieDetails(slug: string) {
     return `/movies/${slug}`;

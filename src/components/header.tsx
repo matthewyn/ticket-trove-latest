@@ -31,8 +31,10 @@ export default function Header() {
             Events
           </Link>
         </NavbarItem>
-        <NavbarItem>
-          <Link href="#">Features</Link>
+        <NavbarItem isActive={path === paths.features()}>
+          <Link href="/features" aria-current={path === paths.features() ? "page" : undefined}>
+            Features
+          </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
@@ -47,6 +49,11 @@ export default function Header() {
         <NavbarMenuItem>
           <Link href="/events" className="w-full">
             Events
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link href="/features" className="w-full">
+            Features
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>

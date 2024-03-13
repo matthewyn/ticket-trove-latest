@@ -26,6 +26,9 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
   } else if (path.startsWith(paths.bookings())) {
     content = "Bookings";
     description = "View your booking here";
+  } else if (path === paths.settingsPassword()) {
+    content = "Password";
+    description = "Manage your passwords";
   }
 
   return (
@@ -40,6 +43,15 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
             <SelectItem key="edit profile" as={Link} href={paths.profile()}>
               Edit Profile
             </SelectItem>
+            {session.data?.user.password ? (
+              <SelectItem key="password" as={Link} href={paths.settingsPassword()}>
+                Password
+              </SelectItem>
+            ) : (
+              <SelectItem className="hidden" key="password" as={Link} href={paths.settingsPassword()}>
+                Password
+              </SelectItem>
+            )}
             <SelectItem key="bookings" as={Link} href={paths.bookings()}>
               Bookings
             </SelectItem>
@@ -56,6 +68,13 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
                   Edit Profile
                 </Link>
               </li>
+              {session.data?.user.password ? (
+                <li>
+                  <Link href={paths.settingsPassword()} className={`${path === paths.settingsPassword() ? "font-bold" : ""}`}>
+                    Password
+                  </Link>
+                </li>
+              ) : null}
               <li>
                 <Link href={paths.bookings()} className={`${path.startsWith(paths.bookings()) ? "font-bold" : ""}`}>
                   Bookings

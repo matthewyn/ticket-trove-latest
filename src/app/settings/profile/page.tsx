@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { updateProfile } from "@/actions/settings/updateProfile";
 import SettingsLayout from "@/components/settings-layout";
 import SubmitButton from "@/components/submit-button";
-import { Textarea } from "@nextui-org/react";
+import { Input, Textarea } from "@nextui-org/react";
 import toast from "react-hot-toast";
 
 export default function Profile() {
@@ -37,6 +37,16 @@ export default function Profile() {
           isInvalid={!!formState.errors.bio}
           errorMessage={formState.errors.bio}
           description="Brief description for your profile."
+        />
+        <Input
+          label="Location"
+          name="location"
+          variant="bordered"
+          labelPlacement="outside"
+          defaultValue={session.data?.user.location || ""}
+          placeholder="Enter your location"
+          isInvalid={!!formState.errors.location}
+          errorMessage={formState.errors.location}
         />
         <div className="text-end">
           <SubmitButton>Save changes</SubmitButton>

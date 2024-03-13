@@ -19,13 +19,6 @@ export default function Footer() {
           <div>
             <Logo />
           </div>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <Link href="#">About</Link>
-            <Link href="#">Careers</Link>
-            <Link href="#">Support</Link>
-            <Link href="#">Privacy</Link>
-            <Link href="#">About</Link>
-          </div>
           <div className="flex gap-3">
             <Link href="#">
               <BsInstagram size={20} />
@@ -37,7 +30,7 @@ export default function Footer() {
               <BsTwitter size={20} />
             </Link>
           </div>
-          <p className="md:col-span-3 text-center">&copy; Ticket Trove Inc. 2023</p>
+          <p className="text-center">&copy; Ticket Trove Inc. {new Date().getFullYear()}</p>
         </div>
       </footer>
     );

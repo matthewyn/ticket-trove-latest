@@ -5,22 +5,23 @@ import { paths } from "@/paths";
 import { revalidatePath } from "next/cache";
 import { string, z } from "zod";
 import { db } from "@/db";
+import { comparePassword, hashPassword } from "@/utils";
 
-interface UpdateProfileFormState {
+interface UpdatePasswordFormState {
   errors: {
-    bio?: string[];
-    location?: string[];
+    oldPassword?: string[];
+    password?: string[];
     _form?: string[];
   };
   completed: boolean;
 }
 
 const Setting = z.object({
-  bio: string(),
-  location: string(),
+  oldPassword: string().trim().min(8),
+  password: string().trim().min(8),
 });
 
-export async function updateProfile(formState: UpdateProfileFormState, formData: FormData): Promise<UpdateProfileFormState> {
+export async function updatePassword(formState: UpdatePasswordFormState, formData: FormData): Promise<UpdatePasswordFormState> {
   const session = await auth();
   if (!session?.user)
     return {
@@ -30,8 +31,8 @@ export async function updateProfile(formState: UpdateProfileFormState, formData:
       completed: false,
     };
   const result = Setting.safeParse({
-    bio: formData.get("bio"),
-    location: formData.get("location"),
+    oldPassword: formData.get("oldPassword"),
+    password: formData.get("password"),
   });
   if (!result.success) {
     return {
@@ -40,7 +41,11 @@ export async function updateProfile(formState: UpdateProfileFormState, formData:
     };
   }
   try {
-    await db.user.update({ where: { id: session.user.id }, data: { bio: result.data.bio, location: result.data.location } });
+    const user = await db.user.findFirst({ where: { id: session.user.id } });
+    if (!user) throw new Error("User not found");
+    if (!(await comparePassword(result.data.oldPassword, user.password as string))) throw new Error("Password is invalid");
+    const hashedPassword = await hashPassword(result.data.password);
+    await db.user.update({ where: { id: user.id }, data: { password: hashedPassword } });
   } catch (err) {
     if (err instanceof Error) {
       return {
@@ -58,7 +63,7 @@ export async function updateProfile(formState: UpdateProfileFormState, formData:
       };
     }
   }
-  revalidatePath(paths.profile());
+  revalidatePath(paths.settingsPassword());
   return {
     errors: {},
     completed: true,

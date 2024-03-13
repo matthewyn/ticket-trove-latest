@@ -4,22 +4,19 @@ import Link from "next/link";
 import premiere from "/public/premiere.jpg";
 import festival from "/public/festival.jpg";
 import movieNights from "/public/movie-nights.jpg";
+import CommonTitle from "@/components/common-title";
 
 export default function Events() {
   return (
     <main className="flex flex-col gap-20">
-      <section className="px-8 mt-16 sm:mt-24 text-center">
-        <div className="max-w-6xl mx-auto flex flex-col gap-4">
-          <p className="text-sm text-pink-400 font-bold">TROVE EVENTS</p>
-          <h1 className="text-4xl font-semibold">Discover Unforgettable Experiences</h1>
-          <p className="max-w-xl mx-auto">Explore a diverse array of events designed to delight and captivate audiences of all tastes and interests.</p>
-          <div>
-            <Button color="primary" as={Link} href="#events">
-              Get started today
-            </Button>
-          </div>
+      <CommonTitle title="TROVE EVENTS" subtitle="Discover Unforgettable Experiences">
+        <p className="max-w-xl mx-auto">Explore a diverse array of events designed to delight and captivate audiences of all tastes and interests.</p>
+        <div>
+          <Button color="primary" as={Link} href="#events">
+            Get started today
+          </Button>
         </div>
-      </section>
+      </CommonTitle>
       <section className="px-8" id="events">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
           <div className="flex flex-col gap-4">

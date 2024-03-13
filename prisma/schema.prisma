@@ -120,6 +120,7 @@ model User {
   image         String?
   name          String
   bio           String?
+  location      String?
   password      String?
   accounts      Account[]
   Booking       Booking[]
