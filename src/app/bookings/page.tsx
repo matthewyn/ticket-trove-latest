@@ -4,7 +4,7 @@ import { getBookings } from "@/actions/bookings";
 import BookingStudio from "@/components/booking-studio";
 import SettingsLayout from "@/components/settings-layout";
 import { paths } from "@/paths";
-import { formatTime } from "@/utils";
+import { formatDate, formatTime } from "@/utils";
 import { Card, CardBody, Pagination } from "@nextui-org/react";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
@@ -27,9 +27,9 @@ type Bookings = Prisma.BookingGetPayload<{
 export default function Bookings() {
   const [bookings, setBookings] = useState<Bookings>([] as Bookings);
   const [currentPage, setCurrentPage] = useState(1);
-  const startIndex = currentPage - 1;
+  const startIndex = (currentPage - 1) * 10;
   const endIndex = currentPage * 10 - 1;
-  const totalPage = Math.floor(bookings.length / 10) + 1;
+  const totalPage = Math.ceil(bookings.length / 10);
   const currentBookings = bookings.slice(startIndex, endIndex);
 
   const content =
@@ -41,7 +41,10 @@ export default function Bookings() {
                 <Image src={`https://image.tmdb.org/t/p/w154${booking.screening.movie.poster}`} alt={`${booking.screening.movie.title} poter`} quality={80} width={90} height={56} />
               </div>
               <div className="text-sm flex flex-col gap-1">
-                <BookingStudio studio={booking.screening.studio.name} />
+                <div className="flex flex-col xs:flex-row gap-2">
+                  <BookingStudio studio={booking.screening.studio.name} />
+                  <span>{formatDate(booking.createdAt)}</span>
+                </div>
                 <div>
                   <h1 className="text-base font-semibold" style={{ overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: "1", WebkitBoxOrient: "vertical" }}>
                     {booking.screening.movie.title}

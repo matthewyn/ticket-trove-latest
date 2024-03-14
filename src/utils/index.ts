@@ -21,3 +21,7 @@ export async function comparePassword(password: string, currentPassword: string)
 export function formatTime(time: Date) {
   return new Date(time).toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
 }
+
+export function formatDate(time: Date) {
+  return new Date(time).toLocaleString("en-US", { day: "numeric", month: "short", year: "numeric" });
+}

@@ -18,7 +18,7 @@ export async function getCheckoutSession(startTime: string, seatsBooked: string[
   const response = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
-    success_url: `${origin}`,
+    success_url: `${origin}/bookings`,
     cancel_url: `${origin}/movies/${screening.movie.slug}`,
     customer_email: session.user.email,
     client_reference_id: screening.id,
@@ -33,7 +33,7 @@ export async function getCheckoutSession(startTime: string, seatsBooked: string[
           currency: "usd",
           unit_amount: screening.studio.price * 100,
         },
-        quantity: 1,
+        quantity: seatsBooked.length,
       },
     ],
     metadata: {
@@ -46,7 +46,7 @@ export async function getCheckoutSession(startTime: string, seatsBooked: string[
 
 export async function getBookings() {
   const session = await auth();
-  return await db.booking.findMany({ where: { userId: session?.user.id }, include: { screening: { select: { movie: true, studio: true, startTime: true, endTime: true } } } });
+  return await db.booking.findMany({ where: { userId: session?.user.id }, include: { screening: { select: { movie: true, studio: true, startTime: true, endTime: true } } }, orderBy: [{ createdAt: "desc" }] });
 }
 
 export async function getBooking(id: string) {

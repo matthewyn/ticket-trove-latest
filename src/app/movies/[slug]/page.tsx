@@ -1,9 +1,14 @@
+"use client";
+
 import { getMovie } from "@/actions/movies";
 import MovieHeader from "@/components/movie-header";
 import Player from "@/components/player";
 import { paths } from "@/paths";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import type { Movie } from "@prisma/client";
 
 interface MovieDetailsProps {
   params: {
@@ -11,20 +16,33 @@ interface MovieDetailsProps {
   };
 }
 
-export default async function MovieDetails({ params }: MovieDetailsProps) {
-  const movie = await getMovie(params.slug);
+export default function MovieDetails({ params }: MovieDetailsProps) {
+  const [movie, setMovie] = useState<Movie | null>({} as Movie);
+
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        const res = await getMovie(params.slug);
+        setMovie(res);
+      }
+      fetchMovies();
+    },
+    [params.slug]
+  );
 
   if (!movie) return notFound();
 
-  const content = movie.cast.map((el) => (
+  if (!movie.id) return null;
+
+  const content = movie.cast?.map((el) => (
     <li key={el.name}>
-      <Image src={`${process.env.TMDB_POSTER_URL_PATH}/w154${el.profile}`} alt={el.character} quality={80} width={132} height={90} />
+      <Image src={`https://image.tmdb.org/t/p/w154${el.profile}`} alt={el.character} quality={80} width={132} height={90} />
       <h3 className="font-semibold text-medium mt-2">{el.character}</h3>
       <p>{el.name}</p>
     </li>
   ));
 
-  const player = movie.mediaKey.map((key) => <Player mediaKey={key} key={key} />);
+  const player = movie.mediaKey?.map((key) => <Player mediaKey={key} key={key} />);
 
   return (
     <main className="flex flex-col gap-20">
