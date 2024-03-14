@@ -5,7 +5,7 @@ import BookingStudio from "@/components/booking-studio";
 import SettingsLayout from "@/components/settings-layout";
 import { paths } from "@/paths";
 import { formatDate, formatTime } from "@/utils";
-import { Card, CardBody, Pagination } from "@nextui-org/react";
+import { Card, CardBody, CircularProgress, Pagination } from "@nextui-org/react";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,10 +27,28 @@ type Bookings = Prisma.BookingGetPayload<{
 export default function Bookings() {
   const [bookings, setBookings] = useState<Bookings>([] as Bookings);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const startIndex = (currentPage - 1) * 10;
   const endIndex = currentPage * 10 - 1;
   const totalPage = Math.ceil(bookings.length / 10);
   const currentBookings = bookings.slice(startIndex, endIndex);
+
+  useEffect(function () {
+    async function fetchBookings() {
+      const res = await getBookings();
+      if (!res) return;
+      setBookings(res);
+      setIsLoading(false);
+    }
+    fetchBookings();
+  }, []);
+
+  if (isLoading)
+    return (
+      <div className="w-full absolute h-[calc(100vh-64px)] z-50 backdrop-blur-md flex items-center justify-center">
+        <CircularProgress aria-label="Loading..." />
+      </div>
+    );
 
   const content =
     currentBookings.length > 0
@@ -59,15 +77,6 @@ export default function Bookings() {
           </Card>
         ))
       : null;
-
-  useEffect(function () {
-    async function fetchBookings() {
-      const res = await getBookings();
-      if (!res) return;
-      setBookings(res);
-    }
-    fetchBookings();
-  }, []);
 
   return (
     <SettingsLayout>

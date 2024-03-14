@@ -9,6 +9,8 @@ import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import type { Movie } from "@prisma/client";
+import { CircularProgress } from "@nextui-org/react";
+import { db } from "@/db";
 
 interface MovieDetailsProps {
   params: {
@@ -18,12 +20,14 @@ interface MovieDetailsProps {
 
 export default function MovieDetails({ params }: MovieDetailsProps) {
   const [movie, setMovie] = useState<Movie | null>({} as Movie);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(
     function () {
       async function fetchMovies() {
         const res = await getMovie(params.slug);
         setMovie(res);
+        setIsLoading(false);
       }
       fetchMovies();
     },
@@ -32,7 +36,12 @@ export default function MovieDetails({ params }: MovieDetailsProps) {
 
   if (!movie) return notFound();
 
-  if (!movie.id) return null;
+  if (isLoading)
+    return (
+      <div className="w-full absolute h-[calc(100vh-64px)] z-50 backdrop-blur-md flex items-center justify-center">
+        <CircularProgress aria-label="Loading..." />
+      </div>
+    );
 
   const content = movie.cast?.map((el) => (
     <li key={el.name}>

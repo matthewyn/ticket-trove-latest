@@ -5,15 +5,20 @@ import { useSession } from "next-auth/react";
 import { updateUser } from "@/actions/settings";
 import SettingsLayout from "@/components/settings-layout";
 import SubmitButton from "@/components/submit-button";
-import { Input } from "@nextui-org/react";
-import React, { FormEvent } from "react";
+import { CircularProgress, Input } from "@nextui-org/react";
+import React from "react";
 import toast from "react-hot-toast";
 
 export default function Settings() {
   const [formState, action] = useFormState(updateUser, { errors: {}, completed: false });
   const session = useSession();
 
-  if (session.status === "loading") return null;
+  if (session.status === "loading")
+    return (
+      <div className="w-full absolute h-[calc(100vh-64px)] z-50 backdrop-blur-md flex items-center justify-center">
+        <CircularProgress aria-label="Loading..." />
+      </div>
+    );
 
   const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

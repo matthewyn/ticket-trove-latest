@@ -6,7 +6,7 @@ import Image from "next/image";
 import Script from "next/script";
 import curve from "/public/curve.svg";
 import { notFound } from "next/navigation";
-import { CheckboxGroup } from "@nextui-org/react";
+import { CheckboxGroup, CircularProgress } from "@nextui-org/react";
 import BackButton from "@/components/back-button";
 import SubmitButton from "@/components/submit-button";
 import { FormEventHandler, useEffect, useState } from "react";
@@ -40,6 +40,7 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
   const formattedTime = formatTimeFromUrl(params.time);
   const [screening, setScreening] = useState({} as availableSeats);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const seats = Object.values(screening.availableSeats || {})
     .flat()
@@ -51,6 +52,7 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
       const res = await getSeats(formattedTime);
       if (!res) return;
       setScreening(res);
+      setIsLoading(false);
     }
     fetchScreening();
   }, []);
@@ -75,6 +77,13 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
   };
 
   if (!screening) return notFound();
+
+  if (isLoading)
+    return (
+      <div className="w-full absolute h-[calc(100vh-64px)] z-50 backdrop-blur-md flex items-center justify-center">
+        <CircularProgress aria-label="Loading..." />
+      </div>
+    );
 
   return (
     <ProtectedRoute>
