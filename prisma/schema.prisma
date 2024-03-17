@@ -122,6 +122,7 @@ model User {
   bio           String?
   location      String?
   password      String?
+  resetToken    String?
   accounts      Account[]
   Booking       Booking[]
   sessions      Session[]

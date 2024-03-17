@@ -14,6 +14,9 @@ export const paths = {
   signup() {
     return `/signup`;
   },
+  forgotPassword() {
+    return `/forgot-password`;
+  },
   settings() {
     return `/settings`;
   },

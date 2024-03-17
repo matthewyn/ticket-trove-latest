@@ -3,7 +3,6 @@
 import { getSeats } from "@/actions/seats";
 import { formatTimeFromUrl } from "@/utils";
 import Image from "next/image";
-import Script from "next/script";
 import curve from "/public/curve.svg";
 import { notFound } from "next/navigation";
 import { CheckboxGroup, CircularProgress } from "@nextui-org/react";

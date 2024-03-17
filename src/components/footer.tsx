@@ -8,11 +8,11 @@ import { paths } from "@/paths";
 
 export default function Footer() {
   const path = usePathname();
-  const excludedPage = [paths.login(), paths.signup()];
+  const excludedPage = [paths.login(), paths.signup(), paths.forgotPassword()];
 
   let content;
 
-  if (!excludedPage.includes(path)) {
+  if (!path.startsWith(paths.forgotPassword()) && !excludedPage.includes(path)) {
     content = (
       <footer className="py-10 pl-4 pr-8 mt-8">
         <div className="max-w-6xl mx-auto grid gap-y-6 md:grid-cols-[auto_1fr_auto] items-center justify-items-center">
