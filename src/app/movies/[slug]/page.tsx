@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 
 import type { Movie } from "@prisma/client";
 import { CircularProgress } from "@nextui-org/react";
-import { db } from "@/db";
 
 interface MovieDetailsProps {
   params: {

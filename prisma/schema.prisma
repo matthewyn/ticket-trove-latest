@@ -114,16 +114,17 @@ model Studio {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  name          String
-  bio           String?
-  location      String?
-  password      String?
-  resetToken    String?
-  accounts      Account[]
-  Booking       Booking[]
-  sessions      Session[]
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  email               String    @unique
+  emailVerified       DateTime?
+  image               String?
+  name                String
+  bio                 String?
+  location            String?
+  password            String?
+  resetToken          String?
+  confirmationToken   String?
+  accounts            Account[]
+  Booking             Booking[]
+  sessions            Session[]
 }

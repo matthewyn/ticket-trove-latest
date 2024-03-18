@@ -16,7 +16,7 @@ export default async function MovieScreenings({ params }: MovieScreeningsProps) 
   if (!movie || !screenings) return notFound();
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute slug={params.slug}>
       <MovieHeader movie={movie} />
       <section className="px-8">
         <div className="max-w-6xl mx-auto">

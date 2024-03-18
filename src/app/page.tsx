@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Button, Card, CardBody, CardHeader, Link } from "@nextui-org/react";
 import Hero from "@/components/hero";
@@ -8,24 +10,43 @@ import MovieRatings from "@/components/movie-ratings";
 import playStore from "/public/play-store.png";
 import appleStore from "/public/apple-store.png";
 import { paths } from "@/paths";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  const movies = await getMovies();
+import type { Movie } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
-  const list = movies.map((movie) => (
-    <Card key={movie.id} shadow="sm" as={Link} href={paths.movieDetails(movie.slug)}>
-      <CardHeader>
-        <Image src={`${process.env.TMDB_POSTER_URL_PATH}/w342${movie.poster}`} width={342} height={200} alt={`${movie.title} poster`} className="object-cover rounded-lg" quality={80} />
-      </CardHeader>
-      <CardBody>
-        <p>
-          {movie.genres.join("/")}&bull;{movie.certification}
-        </p>
-        <h2 className="text-lg mb-4 font-semibold">{movie.title}</h2>
-        <MovieRatings rating={movie.ratingsAverage} />
-      </CardBody>
-    </Card>
-  ));
+export default function Home() {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const searchParams = useSearchParams();
+  const verified = searchParams.get("verified");
+
+  useEffect(function () {
+    async function fetchMovies() {
+      const movies = await getMovies();
+      setMovies(movies);
+      if (verified === "true") toast.success("Email confirmed");
+    }
+    fetchMovies();
+  }, []);
+
+  const list =
+    movies.length > 0
+      ? movies.map((movie) => (
+          <Card key={movie.id} shadow="sm" as={Link} href={paths.movieDetails(movie.slug)}>
+            <CardHeader>
+              <Image src={`https://image.tmdb.org/t/p/w342${movie.poster}`} width={342} height={200} alt={`${movie.title} poster`} className="object-cover rounded-lg" quality={80} />
+            </CardHeader>
+            <CardBody>
+              <p>
+                {movie.genres.join("/")}&bull;{movie.certification}
+              </p>
+              <h2 className="text-lg mb-4 font-semibold">{movie.title}</h2>
+              <MovieRatings rating={movie.ratingsAverage} />
+            </CardBody>
+          </Card>
+        ))
+      : null;
 
   return (
     <main className="flex flex-col gap-20">

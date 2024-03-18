@@ -20,6 +20,7 @@ import getStripe from "@/utils/stripe";
 interface MovieSeatsProps {
   params: {
     time: string;
+    slug: string;
   };
 }
 
@@ -85,7 +86,7 @@ export default function MovieSeats({ params }: MovieSeatsProps) {
     );
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute slug={params.slug}>
       <section className="px-8 mt-16 sm:mt-24 text-center">
         <div className="max-w-6xl mx-auto flex flex-col gap-16">
           <div>

@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { paths } from "@/paths";
-import { generateResetToken, hashPassword, hashResetToken } from "@/utils";
+import { generateToken, hashPassword, hashToken } from "@/utils";
 import { Email } from "@/utils/email";
 import { redirect } from "next/navigation";
 import { string, z } from "zod";
@@ -49,6 +49,8 @@ const ResetPassword = z.object({
 });
 
 export async function signup(formState: SignUpFormState, formData: FormData): Promise<SignUpFormState> {
+  const header = headers();
+  const origin = header.get("origin");
   const result = Signup.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
@@ -64,13 +66,17 @@ export async function signup(formState: SignUpFormState, formData: FormData): Pr
     const user = await db.user.findFirst({ where: { email: result.data.email } });
     if (user) throw new Error("User already registered");
     const hashedPassword = await hashPassword(result.data.password);
+    const token = generateToken();
+    const hashedToken = hashToken(token);
     await db.user.create({
       data: {
         name: result.data.name,
         email: result.data.email,
         password: hashedPassword,
+        confirmationToken: hashedToken,
       },
     });
+    await new Email().sendMail(result.data.email, "Your confirmation email token", `Please visit ${origin}/api/auth/confirm?token=${token} to confirm your email`);
   } catch (err) {
     if (err instanceof Error) {
       return {
@@ -110,8 +116,8 @@ export async function forgotPassword(formState: ForgotPasswordFormState, formDat
     const user = await db.user.findFirst({ where: { email: result.data.email } });
     if (!user) throw new Error("Email not registered");
     if (!user.password) throw new Error("Unsupported method");
-    const token = generateResetToken();
-    const hashedToken = hashResetToken(token);
+    const token = generateToken();
+    const hashedToken = hashToken(token);
     await db.user.update({ where: { id: user.id }, data: { resetToken: hashedToken } });
     await new Email().sendMail(result.data.email, "Your reset password token", `Please visit ${origin}/forgot-password/${token} to reset your password. If you didn't request to reset your password, please just ignore this email`);
   } catch (err) {
@@ -149,7 +155,7 @@ export async function resetPassword(formState: ResetPasswordFormState, formData:
     };
   }
   try {
-    const hashedToken = hashResetToken(token);
+    const hashedToken = hashToken(token);
     const user = await db.user.findFirst({ where: { resetToken: hashedToken } });
     if (!user) throw new Error("Invalid token");
     const hashedPassword = await hashPassword(result.data.password);

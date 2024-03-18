@@ -27,7 +27,7 @@ export default function Signup() {
   }
 
   if (formState.completed) {
-    toast.success("Sign up successfull");
+    toast.success("Confirm your email to continue");
     router.push(paths.login());
   }
 

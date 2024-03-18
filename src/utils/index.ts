@@ -15,11 +15,11 @@ export async function hashPassword(password: string) {
   return await bcrypt.hash(password, 12);
 }
 
-export function generateResetToken() {
+export function generateToken() {
   return crypto.randomBytes(32).toString("hex");
 }
 
-export function hashResetToken(token: string) {
+export function hashToken(token: string) {
   return crypto.createHash("sha256").update(token).digest("hex");
 }
 
