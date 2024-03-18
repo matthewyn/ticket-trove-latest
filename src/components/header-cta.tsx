@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Button, NavbarItem, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { Avatar, Button, CircularProgress, NavbarItem, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { signOut } from "@/actions";
@@ -8,7 +8,7 @@ import { signOut } from "@/actions";
 export default function HeaderCta() {
   const session = useSession();
 
-  if (session.status === "loading") return null;
+  if (session.status === "loading") return <CircularProgress />;
 
   let content;
   if (session.data?.user) {

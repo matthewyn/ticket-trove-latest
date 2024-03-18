@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Button, Card, CardBody, CardHeader, Link } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader, CircularProgress, Link } from "@nextui-org/react";
 import Hero from "@/components/hero";
 import home from "/public/home.jpg";
 import Carousel from "@/components/carousel";
@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const searchParams = useSearchParams();
   const verified = searchParams.get("verified");
 
@@ -25,10 +26,18 @@ export default function Home() {
     async function fetchMovies() {
       const movies = await getMovies();
       setMovies(movies);
+      setIsLoading(false);
       if (verified === "true") toast.success("Email confirmed");
     }
     fetchMovies();
   }, []);
+
+  if (isLoading)
+    return (
+      <div className="w-full absolute h-[calc(100vh-64px)] z-50 backdrop-blur-md flex items-center justify-center">
+        <CircularProgress aria-label="Loading..." />
+      </div>
+    );
 
   const list =
     movies.length > 0
